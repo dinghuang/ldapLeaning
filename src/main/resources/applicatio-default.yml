@@ -9,7 +9,11 @@ spring:
     cache: false
   thymeleaf:
     mode: HTML5
+  ldap:
+    embedded:
+      ldif: 127.0.0.1.389
+      base-dn: dc=dinghuang,dc=com
 server:
   port: 8086
 logging:
-#  level.com.shopping.mall: DEBUG
+  level.ldaptest.*: DEBUG
