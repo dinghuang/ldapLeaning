@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ldapTest
+# THYMELEAF
+  thymeleaf:
+    encoding: UTF-8
+# 热部署静态文件
+  thymeleaf:
+    cache: false
+  thymeleaf:
+    mode: HTML5
+server:
+  port: 8086
+logging:
+#  level.com.shopping.mall: DEBUG
