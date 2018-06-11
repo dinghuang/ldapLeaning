@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: ldapTest
+# THYMELEAF
+  thymeleaf:
+    encoding: UTF-8
+# 热部署静态文件
+    cache: false
+  ldap:
+    urls: ldap://127.0.0.1:389
+#    base: dc=dinghuang,dc=com
+    username: cn=admin,cn=config
+    password: dinghuang
+server:
+  port: 8086
+logging:
+  level.ldaptest.*: DEBUG

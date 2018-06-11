@@ -1,5 +1,6 @@
 package ldaptest.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.AbstractContextMapper;
@@ -15,6 +16,7 @@ import javax.naming.Name;
 @Component
 public class LdapTreeBuilder {
 
+    @Autowired
     private LdapTemplate ldapTemplate;
 
     public LdapTreeBuilder(LdapTemplate ldapTemplate) {

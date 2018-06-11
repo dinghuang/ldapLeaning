@@ -2,11 +2,14 @@ package ldaptest.service.impl;
 
 import ldaptest.domain.Person;
 import ldaptest.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.AttributesMapper;
+import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.stereotype.Component;
 
+import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.ldap.LdapName;
@@ -20,10 +23,14 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
  */
 @Component
 public class PersonServiceImpl implements PersonService {
+
+    @Autowired
     private LdapTemplate ldapTemplate;
 
     @Override
     public void create(Person person) {
+        final Name dn = buildDn(person);
+        person.setDn(dn);
         ldapTemplate.create(person);
     }
 
@@ -42,11 +49,7 @@ public class PersonServiceImpl implements PersonService {
         return ldapTemplate.search(query()
                         .attributes("cn")
                         .where("objectclass").is("person"),
-                new AttributesMapper<String>() {
-                    public String mapFromAttributes(Attributes attrs) throws NamingException {
-                        return attrs.get("cn").get().toString();
-                    }
-                });
+                (AttributesMapper<String>) attrs -> attrs.get("cn").get().toString());
     }
 
     @Override
@@ -58,7 +61,6 @@ public class PersonServiceImpl implements PersonService {
     public Person findByPrimaryKey(String country, String company, String fullname) {
         LdapName dn = buildDn(country, company, fullname);
         Person person = ldapTemplate.findByDn(dn, Person.class);
-
         return person;
     }
 
